@@ -179,7 +179,7 @@ class Pimcore_Controller_Plugin_Frontend_Editmode extends Zend_Controller_Plugin
         else {
             $scriptContents = "";
             foreach ($editmodeScripts as $scriptUrl) {
-                $scriptContents .= file_get_contents(PIMCORE_DOCUMENT_ROOT.$scriptUrl) . "\n\n\n";
+                $scriptContents .= file_get_contents(PIMCORE_PATH.preg_replace('/^\/pimcore/','',$scriptUrl)) . "\n\n\n";
             }
             $editmodeHeadHtml .= '<script type="text/javascript" src="' . Pimcore_Tool_Admin::getMinimizedScriptPath($scriptContents) . '?_dc=' . Pimcore_Version::$revision . '"></script>'."\n";
         }

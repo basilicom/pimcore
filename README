@@ -1,3 +1,11 @@
 Just the pimcore directory contents of the official Pimcore Distribution.
 Current Version: 2.0.2
 
+MODIFICATIONS:
+
+1) Editmode File inclusion
+  FILE  : lib/Pimcore/Controller/Plugin/Frontend/Editmode.php
+  LINE  : 182
+  CHANGE: $scriptContents .= file_get_contents(PIMCORE_PATH.preg_replace('/^\/pimcore/','',$scriptUrl)) . "\n\n\n";
+
+
