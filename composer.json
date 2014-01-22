@@ -1,12 +1,3 @@
 {
-    "name": "basilicom-dev/pimcore",
-    "authors": [
-        {
-            "name": "pimcore GmbH",
-            "email": "info@pimcore.com"
-        }
-    ],
-    "require": {
-
-    }
+    "name": "basilicom/pimcore-core"
 }
