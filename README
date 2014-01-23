@@ -8,4 +8,41 @@ MODIFICATIONS:
   LINE  : 182
   CHANGE: $scriptContents .= file_get_contents(PIMCORE_PATH.preg_replace('/^\/pimcore/','',$scriptUrl)) . "\n\n\n";
 
+2) Modified installData() to use PIMCORE_PATH instead of PIMCORE_DOCUMENT_ROOT to allow online updates:
+  FILE  : lib/Pimcore/Update.php
+  LINE  : 210
+  CHANGE: <<<EOT
+
+    public static function installData ($revision) {
+        
+        $db = Pimcore_Resource::get();
+        $files = $db->fetchAll("SELECT * FROM `" . self::$tmpTable . "` WHERE revision = ?", $revision);
+        
+        foreach ($files as $file) { 
+            if ($file["action"] == "update" || $file["action"] == "add") {
+                if (!is_dir(dirname(PIMCORE_PATH . '/..' . $file["path"]))) {
+                    if(!self::$dryRun) {
+                        Pimcore_File::mkdir(dirname(PIMCORE_PATH . '/..' . $file["path"]));
+                    }
+                }
+                $srcFile = PIMCORE_SYSTEM_TEMP_DIRECTORY . "/update/".$revision."/files/" . str_replace("/","~~~",$file["path"]);
+                $destFile = PIMCORE_PATH . '/..' . $file["path"];
+                
+                if(!self::$dryRun) {
+                    copy($srcFile, $destFile);
+                }
+            }
+            else if ($file["action"] == "delete") {
+                if(!self::$dryRun) {
+                    unlink(PIMCORE_PATH . '/..' . $file["path"]);
+        
+                    // remove also directory if its empty
+                    if (count(glob(dirname(PIMCORE_PATH . '/..' . $file["path"]) . "/*")) === 0) {
+                        recursiveDelete(dirname(PIMCORE_PATH . '/..' . $file["path"]), true);
+                    }
+                }
+            }
+        }
+    }
+EOT
 

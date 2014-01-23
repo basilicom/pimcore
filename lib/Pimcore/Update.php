@@ -214,13 +214,13 @@ class Pimcore_Update {
         
         foreach ($files as $file) { 
             if ($file["action"] == "update" || $file["action"] == "add") {
-                if (!is_dir(dirname(PIMCORE_DOCUMENT_ROOT . $file["path"]))) {
+                if (!is_dir(dirname(PIMCORE_PATH . '/..' . $file["path"]))) {
                     if(!self::$dryRun) {
-                        Pimcore_File::mkdir(dirname(PIMCORE_DOCUMENT_ROOT . $file["path"]));
+                        Pimcore_File::mkdir(dirname(PIMCORE_PATH . '/..' . $file["path"]));
                     }
                 }
                 $srcFile = PIMCORE_SYSTEM_TEMP_DIRECTORY . "/update/".$revision."/files/" . str_replace("/","~~~",$file["path"]);
-                $destFile = PIMCORE_DOCUMENT_ROOT . $file["path"];
+                $destFile = PIMCORE_PATH . '/..' . $file["path"];
                 
                 if(!self::$dryRun) {
                     copy($srcFile, $destFile);
@@ -228,11 +228,11 @@ class Pimcore_Update {
             }
             else if ($file["action"] == "delete") {
                 if(!self::$dryRun) {
-                    unlink(PIMCORE_DOCUMENT_ROOT . $file["path"]);
+                    unlink(PIMCORE_PATH . '/..' . $file["path"]);
         
                     // remove also directory if its empty
-                    if (count(glob(dirname(PIMCORE_DOCUMENT_ROOT . $file["path"]) . "/*")) === 0) {
-                        recursiveDelete(dirname(PIMCORE_DOCUMENT_ROOT . $file["path"]), true);
+                    if (count(glob(dirname(PIMCORE_PATH . '/..' . $file["path"]) . "/*")) === 0) {
+                        recursiveDelete(dirname(PIMCORE_PATH . '/..' . $file["path"]), true);
                     }
                 }
             }
