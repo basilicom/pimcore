@@ -46,3 +46,8 @@ MODIFICATIONS:
     }
 EOT
 
+3) Modified Adminer to use "new" startup file: 
+  ../../../../../htdocs/cms/website/startup.php
+
+
+

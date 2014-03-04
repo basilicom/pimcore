@@ -17,7 +17,8 @@
 error_reporting(E_ERROR);
 
 $workingDirectory = getcwd();
-include("../../../cli/startup.php");
+//include("../../../cli/startup.php");
+include("../../../../../htdocs/cms/website/startup.php");
 chdir($workingDirectory);
 
 // start global session an keep it open (this is needed for the CSRF protections from adminer)
